@@ -1,134 +1,21 @@
 # AI Image Captioning System
 
-An end-to-end deep learning project for automatically generating natural-language captions for images. The project explores multiple neural network architectures for combining visual image features with sequential text representations and compares their performance using BLEU scores.
+An end-to-end deep learning project for generating natural-language captions from images.
 
-## Overview
-
-Image captioning combines two major areas of deep learning:
-
-- **Computer Vision** for understanding image content
-- **Natural Language Processing** for generating descriptive text
-
-The system extracts visual features from images using pretrained convolutional neural networks and combines those features with sequence-based neural networks that generate captions word by word.
-
-Multiple architectures were explored, including:
-
-- LSTM
-- GRU
-- Transformer
-- Convolutional-Bidirectional LSTM
-
-The final Convolutional-Bidirectional model achieved the strongest BLEU performance among the final recurrent-model experiments.
+The project combines pretrained CNN-based visual feature extraction with multiple sequence models, including LSTM, GRU, Bidirectional LSTM, and Transformer-based approaches, and compares model performance using BLEU evaluation.
 
 ---
 
-## Architecture
+## Project Overview
 
-The image-captioning pipeline consists of:
+Image captioning combines:
 
-1. Image preprocessing
-2. CNN-based feature extraction
-3. Caption cleaning and tokenization
-4. Sequence generation
-5. Image and text feature fusion
-6. Neural network training
-7. Caption generation
-8. BLEU-based evaluation
+- Computer Vision for understanding image content
+- Natural Language Processing for generating descriptive text
 
-### Visual Feature Extraction
+The workflow extracts visual features from images, processes caption sequences, fuses image and text representations, trains multiple neural-network architectures, and evaluates generated captions against human-written references.
 
-Pretrained CNN architectures were used to transform images into compact visual feature vectors.
-
-Experiments included:
-
-- ResNet-50 with MS COCO
-- InceptionV3 with Flickr30k
-
-The final training pipeline uses pre-extracted image features for efficient model training.
-
-### Caption Processing
-
-Captions are cleaned and prepared by:
-
-- converting text to lowercase
-- removing digits and special characters
-- removing unnecessary whitespace
-- adding `startseq` and `endseq` tokens
-- tokenizing captions into integer sequences
-- padding sequences to a consistent length
-
----
-
-## Models
-
-### LSTM
-
-The LSTM architecture combines CNN image features with embedded caption sequences and learns temporal relationships between words.
-
-Training loss decreased from:
-
-```text
-4.9723 → 2.9810
-```
-
-BLEU scores:
-
-```text
-BLEU-1: 0.4428
-BLEU-2: 0.2380
-```
-
-### GRU
-
-A GRU-based sequence decoder was evaluated as a computationally lighter alternative to LSTM.
-
-Training loss decreased from:
-
-```text
-4.7969 → 2.9385
-```
-
-BLEU scores:
-
-```text
-BLEU-1: 0.4282
-BLEU-2: 0.2317
-```
-
-### Transformer
-
-A Transformer-based captioning architecture was also evaluated during the Flickr30k experiments.
-
-Best observed:
-
-```text
-BLEU-4: 0.323
-```
-
-### Convolutional-Bidirectional Model
-
-The final architecture combines CNN image features with a bidirectional recurrent text encoder.
-
-The image branch processes visual features using dropout and dense layers, while the caption branch uses:
-
-- word embeddings
-- dropout
-- bidirectional LSTM layers
-- dense layers
-- softmax prediction
-
-Training loss decreased from:
-
-```text
-5.1389 → 3.4807
-```
-
-BLEU scores:
-
-```text
-BLEU-1: 0.4496
-BLEU-2: 0.2438
-```
+The strongest recurrent-model results were produced by the Convolutional-Bidirectional architecture.
 
 ---
 
@@ -140,9 +27,131 @@ BLEU-2: 0.2438
 | GRU | 0.4282 | 0.2317 |
 | Convolutional-Bidirectional | **0.4496** | **0.2438** |
 
-The Convolutional-Bidirectional architecture produced the strongest BLEU-1 and BLEU-2 results among the final recurrent-model experiments.
+Transformer experiments were evaluated separately and achieved:
 
-The Transformer experiment was evaluated separately using BLEU-4 and achieved:
+```text
+BLEU-4: 0.323
+```
+
+The Convolutional-Bidirectional model produced the strongest BLEU-1 and BLEU-2 scores among the final recurrent-model experiments.
+
+---
+
+## Architecture
+
+```text
+Input Image
+    |
+    v
+Image Preprocessing
+    |
+    v
+Pretrained CNN
+    |
+    v
+Visual Feature Vector
+    |
+    +----------------------+
+    |                      |
+    v                      v
+Caption Cleaning      Caption Tokenization
+                           |
+                           v
+                    Sequence Preparation
+                           |
+                           v
+                 Text Representation Model
+                           |
+                           v
+                Image + Text Feature Fusion
+                           |
+                           v
+                  Caption Prediction
+                           |
+                           v
+                    Generated Caption
+                           |
+                           v
+                     BLEU Evaluation
+```
+
+The pipeline combines visual image features with sequential text representations to predict captions word by word.
+
+---
+
+## Visual Feature Extraction
+
+Pretrained CNN architectures are used to transform images into compact feature vectors.
+
+Experiments include:
+
+- ResNet-50 with MS COCO
+- InceptionV3 with Flickr30k
+
+The final training workflow uses pre-extracted image features to reduce repeated CNN computation during model training.
+
+---
+
+## Caption Processing
+
+Caption preprocessing includes:
+
+- Lowercasing text
+- Removing digits and special characters
+- Removing unnecessary whitespace
+- Adding `startseq` and `endseq` tokens
+- Tokenizing captions into integer sequences
+- Padding sequences to a consistent length
+
+These processed sequences are used as decoder inputs during training.
+
+---
+
+## Model Architectures
+
+### LSTM
+
+The LSTM model combines image features with embedded caption sequences and learns temporal relationships between words.
+
+Training loss:
+
+```text
+4.9723 → 2.9810
+```
+
+BLEU results:
+
+```text
+BLEU-1: 0.4428
+BLEU-2: 0.2380
+```
+
+---
+
+### GRU
+
+The GRU model provides a lighter recurrent alternative to LSTM.
+
+Training loss:
+
+```text
+4.7969 → 2.9385
+```
+
+BLEU results:
+
+```text
+BLEU-1: 0.4282
+BLEU-2: 0.2317
+```
+
+---
+
+### Transformer
+
+A Transformer-based captioning architecture was also evaluated during the Flickr30k experiments.
+
+Best observed result:
 
 ```text
 BLEU-4: 0.323
@@ -150,51 +159,233 @@ BLEU-4: 0.323
 
 ---
 
-## Sample Predictions
+### Convolutional-Bidirectional Model
 
-Below are example captions generated by the trained image captioning model.
+The final recurrent architecture combines CNN image features with a bidirectional text encoder.
+
+The image branch uses:
+
+- Pre-extracted CNN features
+- Dropout
+- Dense layers
+
+The caption branch uses:
+
+- Word embeddings
+- Dropout
+- Bidirectional LSTM layers
+- Dense layers
+- Softmax output
+
+Training loss:
+
+```text
+5.1389 → 3.4807
+```
+
+BLEU results:
+
+```text
+BLEU-1: 0.4496
+BLEU-2: 0.2438
+```
+
+This model produced the strongest BLEU-1 and BLEU-2 scores among the final recurrent experiments.
+
+---
+
+## Sample Predictions
 
 ### External Image Example
 
 ![Dog Caption Example](samples/dog_caption_example.png)
 
-**Generated caption:**
+Generated caption:
 
 ```text
 dog is running through the grass
 ```
 
+---
+
 ### Garden Scene
 
 ![Garden Prediction](samples/garden_prediction.png)
 
-**Generated caption:**
+Generated caption:
 
 ```text
 man in blue shirt and jeans is walking down the street
 ```
 
+---
+
 ### Seesaw Scene
 
 ![Seesaw Prediction](samples/seesaw_prediction.png)
 
-**Generated caption:**
+Generated caption:
 
 ```text
 two men are playing in the sand
 ```
 
+---
+
 ### Crowd Scene
 
 ![Crowd Prediction](samples/crowd_prediction.png)
 
-**Generated caption:**
+Generated caption:
 
 ```text
 crowd of people are gathered around the crowd
 ```
 
-These examples demonstrate both successful caption generation and limitations when the model encounters more complex visual scenes.
+These examples show both successful caption generation and the limitations of the model on more complex visual scenes.
+
+---
+
+## Dataset
+
+The project initially explored the MS COCO image-caption dataset.
+
+Because of the storage and memory requirements of the full MS COCO training dataset, later experiments were performed using Flickr30k.
+
+Flickr30k provides multiple human-written captions for each image and is commonly used for image-captioning research.
+
+The final workflow uses pre-extracted image features stored locally during training.
+
+---
+
+## Evaluation
+
+Model performance is measured using BLEU scores through NLTK.
+
+BLEU evaluates overlap between generated captions and reference captions.
+
+- BLEU-1 measures individual word overlap
+- BLEU-2 measures two-word sequence overlap
+- BLEU-4 was used during Transformer experiments
+
+Final Convolutional-Bidirectional results:
+
+```text
+BLEU-1: 0.4496
+BLEU-2: 0.2438
+```
+
+---
+
+## Project Workflow
+
+### 1. Data Preprocessing
+
+```text
+notebooks/01_data_preprocessing.ipynb
+```
+
+Covers:
+
+- Dataset preparation
+- Caption cleaning
+- Tokenization
+- Sequence preparation
+- Image feature extraction
+
+---
+
+### 2. Model Training and Comparison
+
+```text
+notebooks/02_model_training_comparison.ipynb
+```
+
+Covers:
+
+- LSTM experiments
+- GRU experiments
+- Transformer experiments
+- Hyperparameter exploration
+- Model comparison
+
+---
+
+### 3. Final Image Captioning Model
+
+```text
+notebooks/03_final_image_captioning.ipynb
+```
+
+Contains:
+
+- Final Convolutional-Bidirectional architecture
+- Training workflow
+- BLEU evaluation
+- Caption-generation pipeline
+
+---
+
+## Trained Model
+
+The trained model is stored in:
+
+```text
+models/conv_bidirectional.h5
+```
+
+The model file is managed through Git LFS.
+
+After cloning:
+
+```bash
+git lfs install
+git lfs pull
+```
+
+---
+
+## Large Feature File
+
+The preprocessing workflow creates:
+
+```text
+features.pkl
+```
+
+This file is approximately 500 MB and is intentionally excluded from the repository.
+
+It contains pre-extracted image features used during training and can be regenerated from the preprocessing notebook.
+
+---
+
+## Tech Stack
+
+### Deep Learning
+- TensorFlow
+- Keras
+- CNN
+- LSTM
+- GRU
+- Bidirectional LSTM
+- Transformer
+
+### Computer Vision
+- InceptionV3
+- ResNet-50
+
+### Data & Evaluation
+- NumPy
+- Pandas
+- NLTK
+- Scikit-learn
+- Matplotlib
+- Pillow
+
+### Development
+- Python
+- Jupyter Notebook
+- Git LFS
 
 ---
 
@@ -202,65 +393,24 @@ These examples demonstrate both successful caption generation and limitations wh
 
 ```text
 image-captioning-deep-learning/
-│
 ├── notebooks/
 │   ├── 01_data_preprocessing.ipynb
 │   ├── 02_model_training_comparison.ipynb
 │   └── 03_final_image_captioning.ipynb
-│
 ├── models/
 │   └── conv_bidirectional.h5
-│
 ├── docs/
 │   └── AI_Image_Captioning_System_Report.pdf
-│
 ├── samples/
 │   ├── dog_caption_example.png
 │   ├── garden_prediction.png
 │   ├── seesaw_prediction.png
 │   └── crowd_prediction.png
-│
 ├── requirements.txt
 ├── .gitattributes
 ├── .gitignore
 └── README.md
 ```
-
----
-
-## Dataset
-
-The project initially explored the **MS COCO** image-caption dataset.
-
-Due to the large storage and memory requirements of the full MS COCO training dataset, later experiments were performed using **Flickr30k**.
-
-Flickr30k provides multiple human-written captions for each image and is commonly used for training and evaluating image-captioning systems.
-
-The final workflow uses pre-extracted image features stored locally during training.
-
-The large feature file is intentionally excluded from this repository because of its size and can be regenerated through the preprocessing workflow documented in the notebooks.
-
----
-
-## Technologies
-
-- Python
-- TensorFlow
-- Keras
-- NumPy
-- Pandas
-- NLTK
-- Pillow
-- Matplotlib
-- Scikit-learn
-- Jupyter Notebook
-- CNN
-- LSTM
-- GRU
-- Bidirectional LSTM
-- Transformer
-- InceptionV3
-- ResNet-50
 
 ---
 
@@ -273,7 +423,7 @@ git clone https://github.com/Rishika73/image-captioning-deep-learning.git
 cd image-captioning-deep-learning
 ```
 
-Install the required Python libraries:
+Install dependencies:
 
 ```bash
 pip install -r requirements.txt
@@ -281,128 +431,39 @@ pip install -r requirements.txt
 
 ---
 
-## Project Workflow
-
-The notebooks document the model-development process from preprocessing through evaluation.
-
-### 1. Data Preprocessing
-
-```text
-notebooks/01_data_preprocessing.ipynb
-```
-
-Covers:
-
-- dataset preparation
-- caption cleaning
-- tokenization
-- sequence preparation
-- image feature extraction and preprocessing
-
-### 2. Model Training and Comparison
-
-```text
-notebooks/02_model_training_comparison.ipynb
-```
-
-Contains experiments with multiple neural-network architectures, model training, hyperparameter exploration, and performance comparison.
-
-### 3. Final Image Captioning Model
-
-```text
-notebooks/03_final_image_captioning.ipynb
-```
-
-Contains the final Convolutional-Bidirectional architecture, model training, BLEU evaluation, and caption-generation workflow.
-
----
-
-## Trained Model
-
-The trained Convolutional-Bidirectional model is stored in:
-
-```text
-models/conv_bidirectional.h5
-```
-
-Because the model file is large, it is managed using **Git LFS**.
-
-After cloning the repository, initialize Git LFS and download the model with:
-
-```bash
-git lfs install
-git lfs pull
-```
-
----
-
-## Large Feature File
-
-The preprocessing workflow creates a large pre-extracted feature file:
-
-```text
-features.pkl
-```
-
-This file is approximately 500 MB and is intentionally excluded from the GitHub repository to keep the project lightweight.
-
-It contains pre-extracted image features used during model training and can be regenerated using the preprocessing workflow in the notebooks.
-
----
-
-## Evaluation
-
-Model performance is evaluated using BLEU scores through NLTK.
-
-BLEU measures the overlap between generated captions and human-written reference captions.
-
-- **BLEU-1** evaluates individual word overlap
-- **BLEU-2** evaluates two-word sequence overlap
-- **BLEU-4** was additionally used during Transformer experiments
-
-The final Convolutional-Bidirectional model achieved:
-
-```text
-BLEU-1: 0.4496
-BLEU-2: 0.2438
-```
-
----
-
-## Key Takeaways
+## Engineering Highlights
 
 This project demonstrates:
 
-- image feature extraction using pretrained CNNs
-- natural-language sequence preprocessing
-- multimodal image and text feature fusion
-- recurrent neural-network architectures
-- bidirectional sequence modeling
+- Pretrained CNN feature extraction
+- Natural-language sequence preprocessing
+- Multimodal image and text feature fusion
+- LSTM and GRU sequence modeling
+- Bidirectional recurrent architectures
 - Transformer experimentation
-- neural-network training and evaluation
-- BLEU-based caption quality comparison
-- management of large trained model artifacts using Git LFS
+- Neural-network training and comparison
+- BLEU-based caption evaluation
+- Sample inference on unseen images
+- Large model artifact management with Git LFS
 
 ---
 
 ## Future Improvements
 
-Potential extensions include:
-
-- attention-based caption generation
+- Attention-based caption generation
 - Vision Transformer image encoders
 - Transformer-based caption decoders
-- beam-search decoding
-- larger image-caption datasets
-- pretrained vision-language models
-- improved semantic evaluation metrics
-- interactive image-upload inference application
+- Beam-search decoding
+- Larger image-caption datasets
+- Pretrained vision-language models
+- Improved semantic evaluation metrics
+- Interactive image-upload inference application
 
 ---
 
 ## Project Report
 
-A detailed explanation of the architecture, experiments, training process, model comparison, and results is available in:
+A detailed explanation of the experiments, architecture, training process, and results is available at:
 
 ```text
 docs/AI_Image_Captioning_System_Report.pdf
