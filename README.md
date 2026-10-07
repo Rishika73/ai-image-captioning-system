@@ -1,4 +1,5 @@
 # AI Image Captioning System
+
 [![CI](https://github.com/Rishika73/ai-image-captioning-system/actions/workflows/ci.yml/badge.svg)](https://github.com/Rishika73/ai-image-captioning-system/actions/workflows/ci.yml)
 
 An end-to-end deep learning project for generating natural-language captions from images.
@@ -7,9 +8,11 @@ The project combines pretrained CNN-based visual feature extraction with multipl
 
 ---
 
-## Project Overview
+## System Architecture Overview
 
 ![AI Image Captioning System Overview](docs/ai-image-captioning-system-overview.png)
+
+*High-level architecture illustrating the image-captioning workflow. Actual model outputs and evaluation results are shown below.*
 
 The system processes an input image, extracts visual features using pretrained CNNs, combines those features with caption sequences, and generates captions using multiple deep-learning architectures.
 
@@ -360,6 +363,7 @@ It contains pre-extracted image features used during training and can be regener
 ## Tech Stack
 
 ### Deep Learning
+
 - TensorFlow
 - Keras
 - CNN
@@ -369,10 +373,12 @@ It contains pre-extracted image features used during training and can be regener
 - Transformer
 
 ### Computer Vision
+
 - InceptionV3
 - ResNet-50
 
 ### Data & Evaluation
+
 - NumPy
 - Pandas
 - NLTK
@@ -381,9 +387,11 @@ It contains pre-extracted image features used during training and can be regener
 - Pillow
 
 ### Development
+
 - Python
 - Jupyter Notebook
 - Git LFS
+- GitHub Actions
 
 ---
 
@@ -391,6 +399,9 @@ It contains pre-extracted image features used during training and can be regener
 
 ```text
 ai-image-captioning-system/
+├── .github/
+│   └── workflows/
+│       └── ci.yml
 ├── notebooks/
 │   ├── 01_data_preprocessing.ipynb
 │   ├── 02_model_training_comparison.ipynb
@@ -408,6 +419,7 @@ ai-image-captioning-system/
 ├── requirements.txt
 ├── .gitattributes
 ├── .gitignore
+├── LICENSE
 └── README.md
 ```
 
@@ -437,6 +449,21 @@ git lfs pull
 
 ---
 
+## Continuous Integration
+
+GitHub Actions automatically validates the repository on pushes and pull requests to `main`.
+
+The CI workflow checks:
+
+- Notebook files are valid JSON
+- Required notebooks are present
+- TensorFlow and Keras are listed in the dependency manifest
+- Core project assets and directories are present
+
+The current workflow status is shown by the CI badge at the top of this README.
+
+---
+
 ## Engineering Highlights
 
 This project demonstrates:
@@ -451,6 +478,7 @@ This project demonstrates:
 - BLEU-based caption evaluation
 - Sample inference on unseen images
 - Large model artifact management with Git LFS
+- Automated repository validation with GitHub Actions
 
 ---
 
