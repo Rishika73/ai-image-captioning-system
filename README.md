@@ -1,4 +1,5 @@
 # AI Image Captioning System
+[![CI](https://github.com/Rishika73/ai-image-captioning-system/actions/workflows/ci.yml/badge.svg)](https://github.com/Rishika73/ai-image-captioning-system/actions/workflows/ci.yml)
 
 An end-to-end deep learning project for generating natural-language captions from images.
 
