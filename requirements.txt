@@ -1,5 +1,8 @@
 tensorflow
 keras
+torch
+torchvision
+keras-tuner
 numpy
 pandas
 matplotlib
