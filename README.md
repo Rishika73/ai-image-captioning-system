@@ -505,9 +505,6 @@ The project uses classical CNN-plus-sequence-model architectures rather than mod
 
 ---
 
-with:
-
-```md
 ## Project Report
 
 A detailed explanation of the experiments, architecture, training process, model comparison, and results is available in the [AI Image Captioning System Report](docs/AI_Image_Captioning_System_Report.pdf).
