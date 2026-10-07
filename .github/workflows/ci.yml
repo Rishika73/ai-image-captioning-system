@@ -1,0 +1,57 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          lfs: false
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Validate notebook files
+        run: |
+          python - <<'PY'
+          import json
+          from pathlib import Path
+
+          notebooks = [
+              "notebooks/01_data_preprocessing.ipynb",
+              "notebooks/02_model_training_comparison.ipynb",
+              "notebooks/03_final_image_captioning.ipynb",
+          ]
+
+          for notebook in notebooks:
+              path = Path(notebook)
+              assert path.exists(), f"Missing: {notebook}"
+
+              with path.open("r", encoding="utf-8") as f:
+                  json.load(f)
+
+              print(f"Validated {notebook}")
+          PY
+
+      - name: Verify requirements
+        run: |
+          test -s requirements.txt
+          grep -q tensorflow requirements.txt
+          grep -q keras requirements.txt
+
+      - name: Verify project assets
+        run: |
+          test -f README.md
+          test -f LICENSE
+          test -d samples
+          test -d models
