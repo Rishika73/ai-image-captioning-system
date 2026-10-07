@@ -8,14 +8,9 @@ The project combines pretrained CNN-based visual feature extraction with multipl
 
 ## Project Overview
 
-Image captioning combines:
+![AI Image Captioning System Overview](docs/ai-image-captioning-system-overview.png)
 
-- Computer Vision for understanding image content
-- Natural Language Processing for generating descriptive text
-
-The workflow extracts visual features from images, processes caption sequences, fuses image and text representations, trains multiple neural-network architectures, and evaluates generated captions against human-written references.
-
-The strongest recurrent-model results were produced by the Convolutional-Bidirectional architecture.
+The system processes an input image, extracts visual features using pretrained CNNs, combines those features with caption sequences, and generates captions using multiple deep-learning architectures.
 
 ---
 
@@ -38,6 +33,8 @@ The Convolutional-Bidirectional model produced the strongest BLEU-1 and BLEU-2 s
 ---
 
 ## Architecture
+
+The image-captioning workflow follows this pattern:
 
 ```text
 Input Image
@@ -392,7 +389,7 @@ It contains pre-extracted image features used during training and can be regener
 ## Repository Structure
 
 ```text
-image-captioning-deep-learning/
+ai-image-captioning-system/
 ├── notebooks/
 │   ├── 01_data_preprocessing.ipynb
 │   ├── 02_model_training_comparison.ipynb
@@ -400,7 +397,8 @@ image-captioning-deep-learning/
 ├── models/
 │   └── conv_bidirectional.h5
 ├── docs/
-│   └── AI_Image_Captioning_System_Report.pdf
+│   ├── AI_Image_Captioning_System_Report.pdf
+│   └── ai-image-captioning-system-overview.png
 ├── samples/
 │   ├── dog_caption_example.png
 │   ├── garden_prediction.png
@@ -419,14 +417,21 @@ image-captioning-deep-learning/
 Clone the repository:
 
 ```bash
-git clone https://github.com/Rishika73/image-captioning-deep-learning.git
-cd image-captioning-deep-learning
+git clone https://github.com/Rishika73/ai-image-captioning-system.git
+cd ai-image-captioning-system
 ```
 
 Install dependencies:
 
 ```bash
 pip install -r requirements.txt
+```
+
+If the trained model is stored with Git LFS:
+
+```bash
+git lfs install
+git lfs pull
 ```
 
 ---
@@ -441,10 +446,20 @@ This project demonstrates:
 - LSTM and GRU sequence modeling
 - Bidirectional recurrent architectures
 - Transformer experimentation
-- Neural-network training and comparison
+- Neural-network training and model comparison
 - BLEU-based caption evaluation
 - Sample inference on unseen images
 - Large model artifact management with Git LFS
+
+---
+
+## Current Limitations
+
+The generated captions show that BLEU performance alone does not guarantee perfect semantic understanding.
+
+Some complex scenes produce captions that are grammatically reasonable but do not fully match the visual content.
+
+The project uses classical CNN-plus-sequence-model architectures rather than modern large-scale vision-language models.
 
 ---
 
@@ -463,7 +478,7 @@ This project demonstrates:
 
 ## Project Report
 
-A detailed explanation of the experiments, architecture, training process, and results is available at:
+A detailed explanation of the experiments, architecture, training process, model comparison, and results is available at:
 
 ```text
 docs/AI_Image_Captioning_System_Report.pdf
